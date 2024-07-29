@@ -1,6 +1,8 @@
 {
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
-        "exemplo-02-RG.C": "cpp"
+        "*.C": "c",
+        "exemplo-02-RG.C": "cpp",
+        "exemp-struct aluno": "c"
     }
 }
