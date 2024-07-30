@@ -1,67 +1,62 @@
-#include <stdio.h>
+#include<stdio.h>
 
-int main() {
-    int N; 
-    float notaAluno[10]; 
-    int numAprovados = 0; 
+int main(void){
+    int N, count, count1;
+    // armazena a quantidade e porcentagem de mulheres que gostaram do produto
+    int mulheres = 0;
+    int porcentagemFem = 0;
+    float porcentagemtotalFem = 0;
 
-    printf("digite o número de questões: ");
+    // armazena a quantidade e porcentagem de homens que gostaram do produto
+    int homens = 0;
+    int porcentagemMasc = 0;
+    float porcentagemtotalMasc = 0;
+
+    // leitura da quantidade de pessoas que serão entrevistadas
+    printf ("digite a quantidade de pessoas que serão entrevistadas: ");
     scanf("%d", &N);
-    char *gabarito = (char *) malloc(N * sizeof(char));
-    if (gabarito == NULL) {
-        printf("erro na alocação de memoria\n");
-        return 1; 
+
+    // criação das matrizes para receber as respostas
+    char sexo[N];
+    char opiniao[N];
+
+    for(count = 0; count < N; count++){
+        printf("informe o sexo (%d) [m/f]: ", count + 1);
+        scanf(" %c", &sexo[count]);
+        printf("gostou do produto? (%d)[s/n] ", count + 1);
+        scanf(" %c", &opiniao[count]);
     }
-
-    printf("digite o gabarito da prova: ");
-    scanf("%s", gabarito);
-
-    char **respostas = (char **) malloc (10 * sizeof(char *));
-    if(respostas == NULL){
-        printf("erro na alocação de memoria\n");
-        free(gabarito);
-        return 1;
-    }
-
-    for (int i = 0; i < 10; i++){
-        respostas[i] = (char *) malloc((N+ 1) *sizeof(char));
-        if(respostas[i] == NULL){
-            printf("erro na alocação de memoria\n");
-            for(int j = 0; j < i; j++){ //libera memoria
-                free(respostas[j]);
+    //iniciando o laço
+    for(count1 = 0; count1 < N; count1++){
+        // count para a quantidade e porcentagem de mulheres que gostaram
+        if (sexo[count1] == 'f'){
+            mulheres++;
+            if (opiniao[count1] == 's'){
+                porcentagemFem++;
             }
-            free(respostas);
-            free(gabarito);
-            return 1;
+        
         }
-    }
-    printf("digite as respostas dos 10 alunos:\n");
-    for(int i = 0; i < 10; i++){
-        scanf("%s", respostas[i]);
-    }
-    float notaPorQuestao = 10.0 / N;
-
-    for(int i = 0; i < 10; i++){
-        float nota = 0.0;
-        for(int j = 0; j < N; j++){
-            if(respostas[i][j] == gabarito[j]){
-                nota += notaPorQuestao;
+        // count para a quantidade e porcentagem de homens que não gostaram
+        if (sexo[count1] == 'm'){
+            homens++;
+            if (opiniao[count1] == 'n'){
+                porcentagemMasc++;
             }
         }
-        notaAluno[i] = nota;
-        if(nota >= 6.0){
-            numAprovados++;
-        }
-        printf("nota do aluno %d %.2f\n", i + 1, nota);
     }
-    float porcentagemAprovacao = (numAprovados / 10.0) * 100.0;
-    printf("Porcentagem de aprovaçao: %.2f%%\n", porcentagemAprovacao);
-
-    for(int i = 0; i < 10; i++){ //libera memoria 
-        free(respostas[i]);
+    // calculando a porcentagem feminina
+    if (mulheres != 0){
+        porcentagemtotalFem = (porcentagemFem * 100)/mulheres;
     }
-    free(respostas);
-    free(gabarito);
-
+    //calculando a porcentagem masculina
+    if (homens != 0){
+        porcentagemtotalMasc = (porcentagemMasc * 100)/homens;
+    }
+    //imprime as informações
+    printf("-------informações sobre a pesquisa-------\n");
+    printf(" %d pessoas foram entrevistadas, dentre elas:\n ", N);
+    printf("%d sao mulheres e %d sao homens\n", mulheres, homens);
+    printf("um total de %.2f por cento das mulheres gostaram do produto\n ", porcentagemtotalFem);
+    printf("um total de %.2f por cento dos homens nao gostaram do produto\n ", porcentagemtotalMasc);
     return 0;
 }
